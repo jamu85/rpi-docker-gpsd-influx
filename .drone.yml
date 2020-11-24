@@ -50,11 +50,6 @@ steps:
     - refs/heads/master
     - refs/tags/**
 
----
-kind: pipeline
-name: publish-readme
-
-steps:
 - name: readme
   image: sheogorath/readme-to-dockerhub
   environment:
