@@ -37,10 +37,8 @@ steps:
 - name: publish
   image: plugins/docker:linux-arm
   settings:
-    auto_tag: true
-    auto_tag_suffix: linux-arm
     build_args:
-    - BUILD_VERSION=${DRONE_TAG%-*}
+    - BUILD_VERSION=linux-arm-${DRONE_TAG%-*}
     repo: jamu85/${DRONE_REPO_NAME}
     dockerfile: ./Dockerfile
     password:
@@ -91,10 +89,8 @@ steps:
 - name: publish
   image: plugins/docker:linux-arm64
   settings:
-    auto_tag: true
-    auto_tag_suffix: linux-arm64
     build_args:
-    - BUILD_VERSION=${DRONE_TAG%-*}
+    - BUILD_VERSION=linux-arm64-${DRONE_TAG%-*}
     repo: jamu85/${DRONE_REPO_NAME}
     dockerfile: ./Dockerfile
     password:
