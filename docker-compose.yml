@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  gps-connector:
+    image: jamu85/rpi-docker-gpsd-influx:latest
+    container_name: gps-connector
+    devices:
+      - ${GPS_DEVICE_NODE}
+    environment:
+      - INFLUX_HOST=$INFLUX_HOST
+      - INFLUX_PORT=$INFLUX_PORT
+      - INFLUX_USER=$INFLUX_USER
+      - INFLUX_PASS=$INFLUX_PASS
+      - INFLUX_DB=$INFLUX_DB
+      - GPS_DEVICE_NODE=$GPS_DEVICE_NODE
+      - UPDATE_INTERVAL=$UPDATE_INTERVAL
+      - GPSD_PORT=$GPSD_PORT
+      - GPSD_HOST=$GPSD_HOST
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
