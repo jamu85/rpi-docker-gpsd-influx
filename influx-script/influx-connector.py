@@ -11,7 +11,8 @@ import time
 
 # Start gpsd service
 os.system('/usr/sbin/gpsd -D5 -n -G {} &'.format(os.getenv("GPS_DEVICE_NODE")))
-
+# Sleep for 2 seconds to allow a proper startup of gpsd
+time.sleep(2)
 
 # Your InfluxDB Settings
 influx_host = os.getenv('INFLUX_HOST', 'influxdb')
@@ -90,6 +91,13 @@ if __name__ == '__main__':
       gpsd_mode  = gpsd.fix.mode
       gpsd_speed = gpsd.fix.speed
       gpsd_track = gpsd.fix.track
+#     Ignore gpsd_track for this release
+#     gpsd_track = gpsd.fix.track
+
+fruit = 'Apple'
+isApple = True if fruit == 'Apple' else False
+
+      if math.isnan(gpsd_track): gpsd_track = 123.4
 
       # Make sure we have a lat, lon and alt
       if None not in (gpsd_lat, gpsd_lon, gpsd_alt,):
@@ -106,7 +114,8 @@ if __name__ == '__main__':
           print("gpsd-python,host=",hostname,",tpv=lon value=",gpsd_lon)
           print("gpsd-python,host=",hostname,",tpv=mode value=",gpsd_mode)
           print("gpsd-python,host=",hostname,",tpv=speed value=",gpsd_speed)
-          print("gpsd-python,host=",hostname,",tpv=track value=",gpsd_track)
+#         Ignore gpsd_track for this release
+#         print("gpsd-python,host=",hostname,",tpv=track value=",gpsd_track)
 
       influx_json_body = [
         {
@@ -126,8 +135,8 @@ if __name__ == '__main__':
             "lat": gpsd_lat,
             "lon": gpsd_lon,
             "mode": gpsd_mode,
-            "speed": gpsd_speed,
-            "track": gpsd_track
+            "speed": gpsd_speed
+#           "track": gpsd_track
           }
         }
       ]
