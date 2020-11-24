@@ -10,8 +10,9 @@ import threading
 import time
 
 # Start gpsd service
-gpsd_cmd = '/usr/sbin/gpsd -D5 -n -G %s &' os.getenv("GPS_DEVICE_NODE")
+gpsd_cmd = '/usr/sbin/gpsd -D5 -n -G {} &'.format(os.getenv("GPS_DEVICE_NODE"))
 os.system(gpsd_cmd)
+
 
 # Your InfluxDB Settings
 influx_host = os.getenv('INFLUX_HOST', 'influxdb')
