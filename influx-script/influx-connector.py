@@ -10,14 +10,20 @@ import threading
 import time
 
 # Your InfluxDB Settings
-influx_host = os.getenv('INFLUX_HOST', 'influx.local')
+influx_host = os.getenv('INFLUX_HOST', 'influxdb')
 influx_port = os.getenv('INFLUX_PORT', 8086)
 influx_user = os.getenv('INFLUX_USER', None)
 influx_pass = os.getenv('INFLUX_PASS', None)
 influx_db = os.getenv('INFLUX_DB', 'gpsd')
 
+gpsd_host = os.getenv('GPSD_HOST', 'localhost')
+gpsd_port = os.getenv('GPSD_PORT', 2947)
+
 # Number of seconds between updates
 update_interval = os.getenv('UPDATE_INTERVAL', 10)
+
+# Global instance of gpsd client
+gpsd = None
 
 # --------------------------------------------------------------------------------
 # Do not change anything below this line
@@ -40,7 +46,11 @@ class GpsPoller(threading.Thread):
   def __init__(self):
     threading.Thread.__init__(self)
     global gpsd
-    gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
+
+    opts = { "host" : gpsd_host, "port" : gpsd_port }
+    gpsd = gps(**opts)
+    gpsd.stream(WATCH_ENABLE|WATCH_NEWSTYLE)
+
     self.current_value = None
     self.running = True
 
@@ -122,7 +132,7 @@ if __name__ == '__main__':
 
       influx_client.write_points(influx_json_body)
 
-      time.sleep(update_interval)
+      time.sleep(int(update_interval))
 
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print("\nKilling Thread...")
