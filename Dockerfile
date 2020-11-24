@@ -14,9 +14,6 @@ COPY influx-script/influx-connector.py /opt/influx-connector.py
 RUN ["chmod", "a+x", "/opt/influx-connector.py"]
 
 COPY gpsd-init.sh /opt/gpsd-init.sh
-RUN ["chmod", "a+x", "/opt/gpsd-init.sh"]
-
-CMD ["/opt/gpsd-init.sh"]
 
 ENTRYPOINT ["htop"]
 
