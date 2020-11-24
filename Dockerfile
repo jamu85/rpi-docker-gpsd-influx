@@ -13,4 +13,4 @@ EXPOSE 2947
 COPY influx-script/influx-connector.py /opt/influx-connector.py
 RUN ["chmod", "a+x", "/opt/influx-connector.py"]
 
-ENTRYPOINT ["/opt/influx-connector.py"]
+ENTRYPOINT ["python", "/opt/influx-connector.py"]
