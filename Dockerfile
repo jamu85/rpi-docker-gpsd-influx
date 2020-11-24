@@ -1,4 +1,3 @@
-#FROM linarotechnologies/alpine:edge
 FROM alpine:latest
 
 ENV PYTHONUNBUFFERED=1
@@ -17,7 +16,7 @@ RUN ["chmod", "a+x", "/opt/influx-connector.py"]
 COPY gpsd-init.sh /opt/gpsd-init.sh
 RUN ["chmod", "a+x", "/opt/gpsd-init.sh"]
 
-#CMD ["/opt/gpsd-init.sh"]
+CMD ["/opt/gpsd-init.sh"]
 
 ENTRYPOINT ["htop"]
 
