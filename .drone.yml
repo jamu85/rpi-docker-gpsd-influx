@@ -1,14 +1,14 @@
 ---
 kind: pipeline
-name: container
+name: build-linux-arm
 
 platform:
   os: linux
-  arch: amd64
+  arch: arm
 
 steps:
 - name: dryrun
-  image: plugins/docker
+  image: plugins/docker:linux-arm
   settings:
     build_args:
     - BUILD_VERSION=${DRONE_TAG%-*}
@@ -35,8 +35,10 @@ steps:
     - refs/tags/**
 
 - name: publish
-  image: plugins/docker
+  image: plugins/docker:linux-arm
   settings:
+    auto_tag: true
+    auto_tag_suffix: linux-arm
     build_args:
     - BUILD_VERSION=${DRONE_TAG%-*}
     repo: jamu85/${DRONE_REPO_NAME}
@@ -50,6 +52,65 @@ steps:
     - refs/heads/master
     - refs/tags/**
 
+---
+kind: pipeline
+name: build-linux-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+- name: dryrun
+  image: plugins/docker:linux-arm64
+  settings:
+    build_args:
+    - BUILD_VERSION=${DRONE_TAG%-*}
+    dockerfile: ./Dockerfile
+    dry_run: true
+    password:
+      from_secret: docker_password
+    repo: ${DRONE_REPO}
+    username:
+      from_secret: docker_username
+  when:
+    ref:
+    - refs/pull/**
+
+- name: tags
+  image: alpine
+  commands:
+  - export BASE=${DRONE_TAG:-latest}
+  - export TAG=$${BASE##v}
+  - if [ "$$TAG" == "latest" ]; then echo -n "latest" > .tags; else echo -n "latest,$${TAG},$${TAG%-*},$${TAG%.*},$${TAG%%.*}" > .tags; fi
+  when:
+    ref:
+    - refs/heads/master
+    - refs/tags/**
+
+- name: publish
+  image: plugins/docker:linux-arm64
+  settings:
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    build_args:
+    - BUILD_VERSION=${DRONE_TAG%-*}
+    repo: jamu85/${DRONE_REPO_NAME}
+    dockerfile: ./Dockerfile
+    password:
+      from_secret: docker_password
+    username:
+      from_secret: docker_username
+  when:
+    ref:
+    - refs/heads/master
+    - refs/tags/**
+
+---
+kind: pipeline
+name: publish-readme
+
+steps:
 - name: readme
   image: sheogorath/readme-to-dockerhub
   environment:
