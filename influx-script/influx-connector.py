@@ -94,11 +94,6 @@ if __name__ == '__main__':
 #     Ignore gpsd_track for this release
 #     gpsd_track = gpsd.fix.track
 
-fruit = 'Apple'
-isApple = True if fruit == 'Apple' else False
-
-      if math.isnan(gpsd_track): gpsd_track = 123.4
-
       # Make sure we have a lat, lon and alt
       if None not in (gpsd_lat, gpsd_lon, gpsd_alt,):
         if debug == True:
