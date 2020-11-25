@@ -1,4 +1,4 @@
-[![Build Status](https://cloud.drone.io/api/badges/jamu85/rpi-docker-gpsd-influx/status.svg)](https://cloud.drone.io/jamu85/rpi-docker-gpsd-influx)
+[![Build Status](https://cloud.drone.io/api/badges/jamu85/rpi-docker-gpsd-influx/status.svg)](https://cloud.drone.io/jamu85/rpi-docker-gpsd-influx) [![Gitter](https://badges.gitter.im/rpi-docker-gpsd-influx/community.svg)](https://gitter.im/rpi-docker-gpsd-influx/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![](https://images.microbadger.com/badges/version/jamu85/rpi-docker-gpsd-influx.svg)](https://microbadger.com/images/jamu85/rpi-docker-gpsd-influx "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/jamu85/rpi-docker-gpsd-influx.svg)](https://microbadger.com/images/jamu85/rpi-docker-gpsd-influx "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/commit/jamu85/rpi-docker-gpsd-influx.svg)](https://microbadger.com/images/jamu85/rpi-docker-gpsd-influx "Get your own commit badge on microbadger.com")
 
 # rpi-docker-gpsd-influx
 
